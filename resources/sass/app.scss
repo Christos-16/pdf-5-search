@@ -30,9 +30,14 @@ main {
 }
 
 .card-header {
-    background-color: #007bff;
+    background-color: #4B4B4B;
     color: white;
     font-size: 1.5rem;
+}
+
+.btn-primary, .btn-success {
+    background-color: #D43900;
+    color: white;
 }
 
 .alert {
@@ -58,10 +63,10 @@ button[type="submit"] {
     width: 100%;
     padding: .7rem;
     border-radius: .25rem;
-    background-color: #007bff;
+    background-color: #D43900;
     color: white;
     cursor: pointer;
     &:hover {
-        background-color: #0056b3;
+        background-color: #ddd;
     }
 }

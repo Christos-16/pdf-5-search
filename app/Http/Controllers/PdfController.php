@@ -20,6 +20,7 @@ class PdfController extends Controller
     {
         $foundFile = null;
         $numPages = null;
+        $filename = null;
 
         if ($request->isMethod('post')) {
             $filename = $request->input('filename');
@@ -29,7 +30,6 @@ class PdfController extends Controller
                 try {
                     $pdf = $this->parser->parseFile(storage_path("app/{$filePath}"));
                     $numPages = count($pdf->getPages());
-                    // The asset function generates a URL for an asset using the current scheme of the request (http or https)
                     $foundFile = asset("storage/{$filename}.pdf");
                 } catch (Exception $e) {
                     session()->flash('error', 'Failed to parse PDF. Please try again.');
@@ -39,6 +39,6 @@ class PdfController extends Controller
             }
         }
 
-        return view('search_results', compact('foundFile', 'numPages'));
+        return view('search_results', compact('foundFile', 'numPages', 'filename'));
     }
 }

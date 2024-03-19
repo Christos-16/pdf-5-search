@@ -18,4 +18,4 @@ Route::get('/', function () {
 });
 
 
-Route::match(['get', 'post'], '/search', [PdfController::class, 'search']);
+Route::match(['get', 'post'], '/', [PdfController::class, 'search']);
