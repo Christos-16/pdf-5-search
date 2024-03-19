@@ -1,0 +1,39 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">PDF Search</div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url('/search') }}">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" name="filename" placeholder="Enter filename" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            @if(session('fileNotFound'))
+                <div class="alert alert-danger mt-4 text-center">
+                    {{ session('fileNotFound') }}
+                </div>
+            @elseif(session('error'))
+                <div class="alert alert-danger mt-4 text-center">
+                    {{ session('error') }}
+                </div>
+            @elseif(isset($foundFile) && $foundFile)
+                <div class="text-center mt-4">
+                    <a href="{{ asset($foundFile) }}" target="_blank" class="btn btn-success">Open PDF</a>
+                    <p>Number of pages: {{ $numPages }}</p>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+@endsection

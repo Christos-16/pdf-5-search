@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use Smalot\PdfParser\Parser;
+use Exception;
+
+class PdfController extends Controller
+{
+    private $parser;
+
+    public function __construct(Parser $parser)
+    {
+        $this->parser = $parser;
+    }
+
+    public function search(Request $request)
+    {
+        $foundFile = null;
+        $numPages = null;
+
+        if ($request->isMethod('post')) {
+            $filename = $request->input('filename');
+            $filePath = "public/{$filename}.pdf";
+
+            if (Storage::exists($filePath)) {
+                try {
+                    $pdf = $this->parser->parseFile(storage_path("app/{$filePath}"));
+                    $numPages = count($pdf->getPages());
+                    // The asset function generates a URL for an asset using the current scheme of the request (http or https)
+                    $foundFile = asset("storage/{$filename}.pdf");
+                } catch (Exception $e) {
+                    session()->flash('error', 'Failed to parse PDF. Please try again.');
+                }
+            } else {
+                session()->flash('fileNotFound', 'No file found with that name. Please try again.');
+            }
+        }
+
+        return view('search_results', compact('foundFile', 'numPages'));
+    }
+}
