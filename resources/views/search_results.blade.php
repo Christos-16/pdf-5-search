@@ -19,13 +19,13 @@
                 </div>
             </div>
 
-            @if(session('fileNotFound'))
-                <div class="alert alert-danger mt-4 text-center">
-                    {{ session('fileNotFound') }}
+            @if($fileNotFound)
+                <div class="alert alert-danger">
+                    {{ $fileNotFound }}
                 </div>
-            @elseif(session('error'))
+            @elseif($error)
                 <div class="alert alert-danger mt-4 text-center">
-                    {{ session('error') }}
+                    {{ $error }}
                 </div>
             @endif
             @if(isset($foundFile) && $foundFile)

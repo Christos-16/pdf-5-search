@@ -16,11 +16,13 @@ class PdfController extends Controller
         $this->parser = $parser;
     }
 
-    public function search(Request $request)
+        public function search(Request $request)
     {
         $foundFile = null;
         $numPages = null;
         $filename = null;
+        $error = null;
+        $fileNotFound = null;
 
         if ($request->isMethod('post')) {
             $filename = $request->input('filename');
@@ -32,13 +34,13 @@ class PdfController extends Controller
                     $numPages = count($pdf->getPages());
                     $foundFile = asset("storage/{$filename}.pdf");
                 } catch (Exception $e) {
-                    session()->flash('error', 'Failed to parse PDF. Please try again.');
+                    $error = 'Failed to parse PDF. Please try again.';
                 }
             } else {
-                session()->flash('fileNotFound', 'No file found with that name. Please try again.');
+                $fileNotFound = 'No file found with that name. Please try again.';
             }
         }
 
-        return view('search_results', compact('foundFile', 'numPages', 'filename'));
+        return view('search_results', compact('foundFile', 'numPages', 'filename', 'error', 'fileNotFound'));
     }
 }
