@@ -19,20 +19,20 @@
                 </div>
             </div>
 
-            @if($fileNotFound)
-                <div class="alert alert-danger">
-                    {{ $fileNotFound }}
-                </div>
-            @elseif($error)
+            @if($error)
                 <div class="alert alert-danger mt-4 text-center">
                     {{ $error }}
                 </div>
             @endif
-            @if(isset($foundFile) && $foundFile)
-                <div class="text-center mt-4">
-                    <a href="{{ asset($foundFile) }}" target="_blank" class="btn btn-success">Open PDF</a>
-                    <p>File name: {{ $filename }}</p>
-                    <p>Number of pages: {{ $numPages }}</p>
+            @if(!empty($foundFiles))
+                <div class="mt-4">
+                    @foreach($foundFiles as $file)
+                        <div class="text-center mb-3">
+                            <a href="{{ $file['url'] }}" target="_blank" class="btn btn-success">Open PDF</a>
+                            <p>File name: {{ basename($file['url'], '.pdf') }}</p>
+                            <p>Number of pages: {{ $file['numPages'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
             @endif
         </div>
